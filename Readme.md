@@ -18,6 +18,7 @@ Migration
       end
 
       def self.down
+        drop_table :key_values
       end
     end
 
@@ -26,11 +27,6 @@ Usage
     KeyValue.set('xxx', {:baz=>'foo'})
     KeyValue.get('xxx') -> {:baz=>'foo'}
     KeyValue.del('xxx')
-
-TODO
-====
- - Tests
- - .del
 
 Authors
 =======
