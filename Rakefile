@@ -6,10 +6,10 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = 'key_value'
-    gem.summary = "Abuse"
+    gem.summary = "Abuse Sql database as Key-Value store"
     gem.email = "michael@grosser.it"
     gem.homepage = "http://github.com/grosser/#{gem.name}"
-    gem.authors = ["Michael Grosser"]
+    gem.authors = ["Roman Heinrich","Michael Grosser"]
   end
 
   Jeweler::GemcutterTasks.new
