@@ -13,6 +13,10 @@ describe KeyValue do
     KeyValue.get('xxx').should == nil
   end
 
+  it "can get empty via []" do
+    KeyValue['xxx'].should == nil
+  end
+
   it "can set & get" do
     KeyValue.set('xxx', 1)
     KeyValue.get('xxx').should == 1
@@ -39,5 +43,10 @@ describe KeyValue do
       KeyValue.del('xxx')
     }.should change{KeyValue.count}.by(-1)
     KeyValue.get('xxx').should == nil
+  end
+
+  it "can set empty via []=" do
+    KeyValue['xxx'] = 1
+    KeyValue['xxx'].should == 1
   end
 end
