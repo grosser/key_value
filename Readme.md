@@ -24,8 +24,13 @@ Migration
 
 Usage
 =====
+    KeyValue['xxx'] = {:baz=>'foo'})
     KeyValue.set('xxx', {:baz=>'foo'})
+
+    KeyValue['xxx'] -> {:baz=>'foo'}
     KeyValue.get('xxx') -> {:baz=>'foo'}
+
+    KeyValue['xxx'] = nil
     KeyValue.del('xxx')
 
 Authors

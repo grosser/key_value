@@ -9,6 +9,7 @@ class KeyValue < ActiveRecord::Base
   def self.get(key)
     KeyValue.find_by_key(key).try(:value)
   end
+  alias_method :get, :[]
 
   def self.set(key, value)
     if value
@@ -19,6 +20,7 @@ class KeyValue < ActiveRecord::Base
       KeyValue.delete_all(:key => key)
     end
   end
+  alias_method :set, :[]=
 
   def self.del(key)
     set(key, nil)
