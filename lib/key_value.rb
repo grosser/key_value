@@ -15,6 +15,7 @@ class KeyValue < ActiveRecord::Base
       record = KeyValue.find_by_key(key) || KeyValue.new(:key => key)
       record.value = value
       record.save!
+      value
     else
       KeyValue.delete_all(:key => key)
     end
@@ -27,5 +28,18 @@ class KeyValue < ActiveRecord::Base
 
   def self.del(key)
     set(key, nil)
+  end
+
+  def self.inc(key, offset=1)
+    set(key, (get(key) || 0) + offset)
+  end
+
+  def self.cache(key)
+    value = get(key)
+    if value
+      value
+    else
+      set(key, yield)
+    end
   end
 end

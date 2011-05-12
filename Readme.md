@@ -25,13 +25,23 @@ Migration
 Usage
 =====
     KeyValue['xxx'] = {:baz=>'foo'})
-    KeyValue.set('xxx', {:baz=>'foo'})
+    or KeyValue.set('xxx', {:baz=>'foo'})
 
     KeyValue['xxx'] -> {:baz=>'foo'}
-    KeyValue.get('xxx') -> {:baz=>'foo'}
+    or KeyValue.get('xxx') -> {:baz=>'foo'}
 
     KeyValue['xxx'] = nil
-    KeyValue.del('xxx')
+    or KeyValue.del('xxx')
+
+    KeyValue.inc('xxx') # !! Not atomic
+    or KeyValue.inc('xxx', 5)
+
+    KeyValue.cache('xxx'){ ..something expensive.. }
+
+TODO
+====
+ - setting / caching of false <-> AR serialize does not handle false
+ - HandlerSocket support
 
 Authors
 =======
