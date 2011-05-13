@@ -23,7 +23,6 @@ describe KeyValue do
   end
 
   it "can set & get false" do
-    pending
     KeyValue.set('xxx', false)
     KeyValue.get('xxx').should == false
   end
@@ -96,7 +95,6 @@ describe KeyValue do
     end
 
     it "can store false" do
-      pending
       KeyValue.cache('xxx'){false}
       KeyValue.cache('xxx'){true}.should == false
     end

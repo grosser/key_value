@@ -40,7 +40,6 @@ Usage
 
 TODO
 ====
- - setting / caching of false <-> AR serialize does not handle false
  - HandlerSocket support
 
 Authors
