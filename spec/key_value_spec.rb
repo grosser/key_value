@@ -104,7 +104,7 @@ describe KeyValue do
   if ENV['DB'] == 'mysql'
     describe 'with handlersocket' do
       before do
-        KeyValue.handler_socket = true
+        KeyValue.handler_socket = {:host => '127.0.0.1', :port => '9998', :database => 'key_values_test'}
         KeyValue.delete_all
       end
 

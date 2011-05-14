@@ -1,7 +1,7 @@
 require 'active_record'
 
 class KeyValue < ActiveRecord::Base
-  HS_DEFAULT_CONFIG = {:host => '127.0.0.1', :port => '9998'}
+  HS_DEFAULT_CONFIG = {:port => '9998'}
   HS_INDEX = 31234 # just some high number...
   VERSION = File.read( File.join(File.dirname(__FILE__),'..','VERSION') ).strip
   validates_presence_of :key
@@ -18,7 +18,7 @@ class KeyValue < ActiveRecord::Base
 
   def self.get(key)
     if handler_socket
-      hs_connection.open_index(HS_INDEX, 'key_values_test', 'key_values', 'index_key_values_on_key', 'value')
+      hs_connection.open_index(HS_INDEX, handler_socket[:database], 'key_values', 'index_key_values_on_key', 'value')
       result = hs_connection.execute_single(HS_INDEX, '=', [key])
       return unless result = result[1][0]
       YAML.load(result[0])
@@ -65,8 +65,7 @@ class KeyValue < ActiveRecord::Base
   def self.hs_connection
     @@hs_connection ||= begin
       require 'handlersocket'
-      config = (handler_socket == true ? HS_DEFAULT_CONFIG : handler_socket)
-      HandlerSocket.new(config)
+      HandlerSocket.new(HS_DEFAULT_CONFIG.merge(handler_socket).slice(:host, :port))
     end
   end
 end
