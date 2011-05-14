@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{key_value}
-  s.version = "0.1.4"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Roman Heinrich", "Michael Grosser"]
-  s.date = %q{2011-05-13}
+  s.date = %q{2011-05-14}
   s.email = %q{michael@grosser.it}
   s.files = [
     "Gemfile",
@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
     "VERSION",
     "key_value.gemspec",
     "lib/key_value.rb",
+    "spec/Readme.md",
     "spec/key_value_spec.rb",
     "spec/spec_helper.rb"
   ]
