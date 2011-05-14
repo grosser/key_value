@@ -24,23 +24,37 @@ Migration
 
 Usage
 =====
-    KeyValue['xxx'] = {:baz=>'foo'})
-    or KeyValue.set('xxx', {:baz=>'foo'})
-
+    # get
     KeyValue['xxx'] -> {:baz=>'foo'}
     or KeyValue.get('xxx') -> {:baz=>'foo'}
 
+    # set
+    KeyValue['xxx'] = {:baz=>'foo'})
+    or KeyValue.set('xxx', {:baz=>'foo'})
+
+    # delete
     KeyValue['xxx'] = nil
     or KeyValue.del('xxx')
 
+    # increment
     KeyValue.inc('xxx') # !! Not atomic
     or KeyValue.inc('xxx', 5)
 
+    # cache
     KeyValue.cache('xxx'){ ..something expensive.. }
+
+HandlerSocket for [750k-qps](http://yoshinorimatsunobu.blogspot.com/2010/10/using-mysql-as-nosql-story-for.html),
+[Ubuntu natty guide](http://grosser.it/2011/05/14/installing-mysql-handlersocket-in-ubuntu-natty-for-ruby/)
+
+    KeyValue.handler_socket = {:port=>'9998'}
+
+    # all read requests use HandlerSocket
+    KeyValue['xxx'] # -> same as before but faster :)
 
 TODO
 ====
- - HandlerSocket support
+ - HandlerSocket write support
+ - use 'key' column as primary key <-> any problems with that ?
 
 Authors
 =======
