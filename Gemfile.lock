@@ -20,15 +20,16 @@ GEM
       bundler (~> 1.0.0)
       git (>= 1.2.5)
       rake
+    mysql2 (0.2.7)
     rake (0.8.7)
-    rspec (2.5.0)
-      rspec-core (~> 2.5.0)
-      rspec-expectations (~> 2.5.0)
-      rspec-mocks (~> 2.5.0)
-    rspec-core (2.5.1)
-    rspec-expectations (2.5.0)
+    rspec (2.6.0)
+      rspec-core (~> 2.6.0)
+      rspec-expectations (~> 2.6.0)
+      rspec-mocks (~> 2.6.0)
+    rspec-core (2.6.0)
+    rspec-expectations (2.6.0)
       diff-lcs (~> 1.1.2)
-    rspec-mocks (2.5.0)
+    rspec-mocks (2.6.0)
     sqlite3 (1.3.3)
     tzinfo (0.3.27)
 
@@ -38,6 +39,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   jeweler
+  mysql2 (~> 0.2.0)
   rake
   rspec (~> 2)
   sqlite3
