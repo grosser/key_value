@@ -2,6 +2,7 @@ require File.expand_path('spec/spec_helper')
 
 describe KeyValue do
   before do
+    KeyValue.handler_socket = false
     KeyValue.delete_all
   end
 
@@ -98,5 +99,32 @@ describe KeyValue do
       KeyValue.cache('xxx'){false}
       KeyValue.cache('xxx'){true}.should == false
     end
+  end
+
+  if ENV['DB'] == 'mysql'
+    describe 'with handlersocket' do
+      before do
+        KeyValue.handler_socket = true
+        KeyValue.delete_all
+      end
+
+      it "can get" do
+        KeyValue['xxx'] = '123'
+        KeyValue.should_not_receive(:find_by_key)
+        KeyValue['xxx'].should == '123'
+      end
+
+      it "can get nil" do
+        KeyValue['xxx'].should == nil
+      end
+
+      it "can get false" do
+        KeyValue['xxx'] = false
+        KeyValue.should_not_receive(:find_by_key)
+        KeyValue['xxx'].should == false
+      end
+    end
+  else
+    puts 'not running HandlerSocket specs'
   end
 end
