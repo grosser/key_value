@@ -18,7 +18,7 @@ class KeyValue < ActiveRecord::Base
 
   def self.get(key)
     if handler_socket
-      hs_connection.open_index(HS_INDEX, handler_socket[:database], 'key_values', 'index_key_values_on_key', 'value')
+      open_key_index
       result = hs_connection.execute_single(HS_INDEX, '=', [key])
       return unless result = result[1][0]
       YAML.load(result[0])
@@ -66,9 +66,17 @@ class KeyValue < ActiveRecord::Base
   private
 
   def self.hs_connection
-    @@hs_connection ||= begin
+    @hs_connection ||= begin
       require 'handlersocket'
-      HandlerSocket.new(HS_DEFAULT_CONFIG.merge(handler_socket).slice(:host, :port))
+      HandlerSocket.new(HS_DEFAULT_CONFIG.merge(handler_socket))
     end
+  end
+
+  def self.hs_connection_config
+    HS_DEFAULT_CONFIG.merge(connection_pool.spec.config.merge(handler_socket))
+  end
+
+  def self.open_key_index
+    @open_key_index ||= hs_connection.open_index(HS_INDEX, handler_socket[:database], table_name, "index_#{table_name}_on_key", 'value')
   end
 end
