@@ -4,8 +4,8 @@ class KeyValue < ActiveRecord::Base
   HS_DEFAULT_CONFIG = {:port => '9998'}
   HS_INDEX = 31234 # just some high number...
   VERSION = File.read( File.join(File.dirname(__FILE__),'..','VERSION') ).strip
-  validates_presence_of :key
 
+  set_primary_key :key
   serialize :value
 
   cattr_accessor :handler_socket
@@ -31,7 +31,10 @@ class KeyValue < ActiveRecord::Base
     if value.nil?
       KeyValue.delete_all(:key => key)
     else
-      record = KeyValue.find_by_key(key) || KeyValue.new(:key => key)
+      unless record = KeyValue.find_by_key(key)
+        record = KeyValue.new
+        record.key = key # no mass assignment on primary key
+      end
       record.value = value
       record.save!
       value

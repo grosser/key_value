@@ -10,11 +10,10 @@ Migration
 
     class CreateKeyValue < ActiveRecord::Migration
       def self.up
-        create_table :key_values do |t|
-          t.string :key, :null => false
+        create_table :key_values, :id => false do |t|
+          t.string :key, :null => false, :primary => true
           t.text :value, :null => false
         end
-        add_index :key_values, :key, :unique => true
       end
 
       def self.down
@@ -56,7 +55,6 @@ TODO
  - nice error handling for HandlerSocket
  - reuse host/database from normal connection for HandlerSocket
  - HandlerSocket write support
- - use 'key' column as primary key <-> any problems with that ?
  - make test database configurable
 
 Authors
