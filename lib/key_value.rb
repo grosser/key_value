@@ -68,15 +68,16 @@ class KeyValue < ActiveRecord::Base
   def self.hs_connection
     @hs_connection ||= begin
       require 'handlersocket'
-      HandlerSocket.new(HS_DEFAULT_CONFIG.merge(handler_socket))
+      HandlerSocket.new(hs_connection_config)
     end
   end
 
   def self.hs_connection_config
-    HS_DEFAULT_CONFIG.merge(connection_pool.spec.config.merge(handler_socket))
+    given = (handler_socket == true ? {} : handler_socket)
+    HS_DEFAULT_CONFIG.merge(connection_pool.spec.config.merge(given))
   end
 
   def self.open_key_index
-    @open_key_index ||= hs_connection.open_index(HS_INDEX, handler_socket[:database], table_name, "index_#{table_name}_on_key", 'value')
+    @open_key_index ||= hs_connection.open_index(HS_INDEX, hs_connection_config[:database], table_name, "index_#{table_name}_on_key", 'value')
   end
 end

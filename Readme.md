@@ -1,4 +1,4 @@
-Abuse Sql database as Key-Value Store
+Abuse Sql database as Key-Value Store that can be [750k-qps-crazy-fast](http://yoshinorimatsunobu.blogspot.com/2010/10/using-mysql-as-nosql-story-for.html) via HandlerSocket
 
 Install
 =======
@@ -6,7 +6,7 @@ Install
 
 Migration
 =========
-`rails g migration create_key_value`
+`rails g migration create_key_value` and paste in:
 
     class CreateKeyValue < ActiveRecord::Migration
       def self.up
@@ -14,6 +14,7 @@ Migration
           t.string :key, :null => false, :primary => true
           t.text :value, :null => false
         end
+        add_index :key_values, :key, :unique => true
       end
 
       def self.down
@@ -42,10 +43,10 @@ Usage
     # cache
     KeyValue.cache('xxx'){ ..something expensive.. }
 
-HandlerSocket for [750k-qps](http://yoshinorimatsunobu.blogspot.com/2010/10/using-mysql-as-nosql-story-for.html),
-[Ubuntu natty guide](http://grosser.it/2011/05/14/installing-mysql-handlersocket-in-ubuntu-natty-for-ruby/)
+HandlerSocket ([Ubuntu natty guide](http://grosser.it/2011/05/14/installing-mysql-handlersocket-in-ubuntu-natty-for-ruby/)):
 
-    KeyValue.handler_socket = {:host => '127.0.0.1', :port=>'9998', :database => 'foo_development'}
+    KeyValue.handler_socket = true
+    # or Hash with any of these keys :host :port :database :timeout :listen_backlog :sndbuf :rcvbuf
 
     # all read requests use HandlerSocket
     KeyValue['xxx'] # -> same as before but faster :)
@@ -53,7 +54,6 @@ HandlerSocket for [750k-qps](http://yoshinorimatsunobu.blogspot.com/2010/10/usin
 TODO
 ====
  - nice error handling for HandlerSocket
- - reuse host/database from normal connection for HandlerSocket
  - HandlerSocket write support
  - make test database configurable
 

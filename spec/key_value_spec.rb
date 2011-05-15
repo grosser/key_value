@@ -104,7 +104,7 @@ describe KeyValue do
   if ENV['DB'] == 'mysql'
     describe 'with handlersocket' do
       before do
-        KeyValue.handler_socket = {:host => '127.0.0.1', :port => '9998', :database => 'key_values_test'}
+        KeyValue.handler_socket = true
         KeyValue.delete_all
       end
 
@@ -122,6 +122,26 @@ describe KeyValue do
         KeyValue['xxx'] = false
         KeyValue.should_not_receive(:find_by_key)
         KeyValue['xxx'].should == false
+      end
+
+      it "uses defaults" do
+        KeyValue.send(:hs_connection_config).except(:username, :password).should == {
+          :flags=>2,
+          :port=>"9998",
+          :adapter=>"mysql2",
+          :database=>"key_values_test"
+        }
+      end
+
+      it "merges in my given settings" do
+        KeyValue.handler_socket = {:port => '123'}
+        KeyValue.send(:hs_connection_config).except(:username, :password).should == {
+          :flags=>2,
+          :port=>"123",
+          :adapter=>"mysql2",
+          :database=>"key_values_test"
+        }
+
       end
     end
   else
