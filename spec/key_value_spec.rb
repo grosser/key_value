@@ -124,6 +124,13 @@ describe KeyValue do
         KeyValue['xxx'].should == false
       end
 
+      it "raises on hs error" do
+        KeyValue.hs_connection.should_receive(:execute_single).and_return [-1, 'wtf']
+        lambda{
+          KeyValue['xxx'].should == '123'
+        }.should raise_error('wtf')
+      end
+
       it "uses defaults" do
         KeyValue.send(:hs_connection_config).except(:username, :password).should == {
           :flags=>2,

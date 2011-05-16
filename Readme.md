@@ -53,7 +53,6 @@ HandlerSocket ([Ubuntu natty guide](http://grosser.it/2011/05/14/installing-mysq
 
 TODO
 ====
- - nice error handling for HandlerSocket
  - HandlerSocket write support
  - make test database configurable
 

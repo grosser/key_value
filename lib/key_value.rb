@@ -1,6 +1,8 @@
 require 'active_record'
 
 class KeyValue < ActiveRecord::Base
+  class HandlerSocketError < RuntimeError; end
+
   HS_DEFAULT_CONFIG = {:port => '9998'}
   HS_INDEX = 31234 # just some high number...
   VERSION = File.read( File.join(File.dirname(__FILE__),'..','VERSION') ).strip
@@ -19,9 +21,8 @@ class KeyValue < ActiveRecord::Base
   def self.get(key)
     if handler_socket
       open_key_index
-      result = hs_connection.execute_single(HS_INDEX, '=', [key])
-      return unless result = result[1][0]
-      YAML.load(result[0])
+      result = hs_find_by_key(key)
+      YAML.load(result) if result
     else
       KeyValue.find_by_key(key).try(:value)
     end
@@ -78,6 +79,18 @@ class KeyValue < ActiveRecord::Base
   end
 
   def self.open_key_index
-    @open_key_index ||= hs_connection.open_index(HS_INDEX, hs_connection_config[:database], table_name, "index_#{table_name}_on_key", 'value')
+    @open_key_index ||= begin
+      result = hs_connection.open_index(HS_INDEX, hs_connection_config[:database], table_name, "index_#{table_name}_on_key", 'value')
+      raise HandlerSocketError, result[1] if result[0] == -1
+    end
+  end
+
+  def self.hs_find_by_key(key)
+    result = hs_connection.execute_single(HS_INDEX, '=', [key])
+    if result[0] == -1
+      raise HandlerSocketError, result[1]
+    else
+      result[1][0].try(:[],0)
+    end
   end
 end
