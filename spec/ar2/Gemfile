@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'activerecord', '~>3'
+gem 'activerecord', '~>2'
 
 group :dev do # not development <-> would add unneeded development dependencies in gemspec
   gem 'sqlite3'
