@@ -1,4 +1,4 @@
-require File.expand_path('spec/spec_helper')
+require File.expand_path('../spec_helper', __FILE__)
 
 describe KeyValue do
   before do
@@ -21,6 +21,20 @@ describe KeyValue do
   it "can set & get" do
     KeyValue.set('xxx', 1)
     KeyValue.get('xxx').should == 1
+  end
+
+  it "can set & get all kinds of objects" do
+    KeyValue.set('xxx', '1')
+    KeyValue.get('xxx').should == '1'
+    KeyValue.delete_all
+    KeyValue.set('xxx', [1])
+    KeyValue.get('xxx').should == [1]
+    KeyValue.delete_all
+    KeyValue.set('xxx', {:x => 1})
+    KeyValue.get('xxx').should == {:x => 1}
+    KeyValue.delete_all
+    KeyValue.set('xxx', :x)
+    KeyValue.get('xxx').should == :x
   end
 
   it "can set & get false" do
