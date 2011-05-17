@@ -19,8 +19,8 @@ end
 ActiveRecord::Schema.define(:version => 1) do
   drop_table :key_values rescue nil
 
-  create_table :key_values, :id => false do |t|
-    t.string :key, :null => false,:primary => true
+  create_table :key_values do |t|
+    t.string :key, :null => false
     t.text :value, :null => false
   end
   add_index :key_values, :key, :unique => true

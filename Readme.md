@@ -10,8 +10,8 @@ Migration
 
     class CreateKeyValue < ActiveRecord::Migration
       def self.up
-        create_table :key_values, :id => false do |t|
-          t.string :key, :null => false, :primary => true
+        create_table :key_values do |t|
+          t.string :key, :null => false
           t.text :value, :null => false
         end
         add_index :key_values, :key, :unique => true
