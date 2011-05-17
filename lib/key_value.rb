@@ -8,7 +8,6 @@ class KeyValue < ActiveRecord::Base
   VERSION = File.read( File.join(File.dirname(__FILE__),'..','VERSION') ).strip
 
   set_primary_key :key
-  serialize :value
 
   cattr_accessor :handler_socket
 
@@ -16,6 +15,10 @@ class KeyValue < ActiveRecord::Base
   def value=(x)
     x = x.to_yaml unless x.nil?
     write_attribute :value, x
+  end
+
+  def value
+    YAML.load(read_attribute :value)
   end
 
   def self.get(key)
