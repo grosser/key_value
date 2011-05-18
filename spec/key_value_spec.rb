@@ -122,6 +122,21 @@ describe KeyValue do
     end
   end
 
+  describe :defaults do
+    it "uses them when nothing is set" do
+      KeyValue.defaults.merge!(:x => 1)
+      KeyValue['x'].should == 1
+    end
+
+    it "does not use them when something is set" do
+      KeyValue.defaults.merge!(:x => 1)
+      KeyValue['x'] = false
+      KeyValue['x'].should == false
+      KeyValue['x'] = 2
+      KeyValue['x'].should == 2
+    end
+  end
+
   if ENV['DB'] == 'mysql'
     describe 'with handlersocket' do
       before do

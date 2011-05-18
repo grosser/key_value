@@ -10,6 +10,8 @@ class KeyValue < ActiveRecord::Base
   set_primary_key :key
 
   cattr_accessor :handler_socket
+  cattr_accessor :defaults
+  @@defaults = {}.with_indifferent_access
 
   # serialize would treat false the same as nil
   def value=(x)
@@ -22,22 +24,28 @@ class KeyValue < ActiveRecord::Base
   end
 
   def self.get(key)
-    if handler_socket
+    key = key.to_s
+
+    found = if handler_socket
       open_key_index
-      result = hs_find_by_key(key.to_s)
+      result = hs_find_by_key(key)
       YAML.load(result) if result
     else
-      KeyValue.find_by_key(key.to_s).try(:value)
+      KeyValue.find_by_key(key).try(:value)
     end
+
+    found.nil? ? defaults[key] : found
   end
 
   def self.set(key, value)
+    key = key.to_s
+
     if value.nil?
-      KeyValue.delete_all(:key => key.to_s)
+      KeyValue.delete_all(:key => key)
     else
-      unless record = KeyValue.find_by_key(key.to_s)
+      unless record = KeyValue.find_by_key(key)
         record = KeyValue.new
-        record.key = key.to_s # no mass assignment on primary key
+        record.key = key # no mass assignment on primary key
       end
       record.value = value
       record.save!

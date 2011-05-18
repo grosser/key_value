@@ -43,6 +43,14 @@ Usage
     # cache
     KeyValue.cache('xxx'){ ..something expensive.. }
 
+    # defaults (in case the value is not stored yet)
+    KeyValue.defaults['xxx'] = 1
+    KeyValue['xxx'] -> 1
+    KeyValue['xxx'] = 2
+    KeyValue['xxx'] -> 2
+    KeyValue['xxx'] = nil
+    KeyValue['xxx'] -> 1
+
 HandlerSocket ([Ubuntu natty guide](http://grosser.it/2011/05/14/installing-mysql-handlersocket-in-ubuntu-natty-for-ruby/)):
 
     KeyValue.handler_socket = true
