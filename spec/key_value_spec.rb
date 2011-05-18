@@ -23,6 +23,13 @@ describe KeyValue do
     KeyValue.get('xxx').should == 1
   end
 
+  it "can set & get with symbols/strings" do
+    KeyValue[:xxx] = 1
+    KeyValue['xxx'].should == 1
+    KeyValue['xxx'] = 1
+    KeyValue[:xxx].should == 1
+  end
+
   it "can set & get all kinds of objects" do
     KeyValue.set('xxx', '1')
     KeyValue.get('xxx').should == '1'

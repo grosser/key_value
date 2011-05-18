@@ -24,20 +24,20 @@ class KeyValue < ActiveRecord::Base
   def self.get(key)
     if handler_socket
       open_key_index
-      result = hs_find_by_key(key)
+      result = hs_find_by_key(key.to_s)
       YAML.load(result) if result
     else
-      KeyValue.find_by_key(key).try(:value)
+      KeyValue.find_by_key(key.to_s).try(:value)
     end
   end
 
   def self.set(key, value)
     if value.nil?
-      KeyValue.delete_all(:key => key)
+      KeyValue.delete_all(:key => key.to_s)
     else
-      unless record = KeyValue.find_by_key(key)
+      unless record = KeyValue.find_by_key(key.to_s)
         record = KeyValue.new
-        record.key = key # no mass assignment on primary key
+        record.key = key.to_s # no mass assignment on primary key
       end
       record.value = value
       record.save!
