@@ -24,13 +24,10 @@ Migration
 
 Usage
 =====
-    # get
-    KeyValue['xxx'] -> {:baz=>'foo'}
-    or KeyValue.get('xxx') -> {:baz=>'foo'}
 
-    # set
+    # set & get
     KeyValue['xxx'] = {:baz=>'foo'})
-    or KeyValue.set('xxx', {:baz=>'foo'})
+    KeyValue['xxx'] -> {:baz=>'foo'}
 
     # delete
     KeyValue['xxx'] = nil
@@ -38,10 +35,10 @@ Usage
 
     # increment
     KeyValue.inc('xxx') # !! Not atomic
-    or KeyValue.inc('xxx', 5)
+    or KeyValue.inc('xxx', 5) # increment by 5
 
     # cache
-    KeyValue.cache('xxx'){ ..something expensive.. }
+    result = KeyValue.cache('xxx'){ ..something expensive.. }
 
     # defaults (in case the value is not stored yet)
     KeyValue.defaults['xxx'] = 1
@@ -61,7 +58,8 @@ HandlerSocket ([Ubuntu natty guide](http://grosser.it/2011/05/14/installing-mysq
 
 TODO
 ====
- - HandlerSocket write support
+ - HandlerSocket [insert+update](https://github.com/miyucy/handlersocket/blob/master/ext/handler_socket.cc#L364) support
+ - Multi-get support `KeyValue.keys('xxx*')` + `KeyValue.multi_get(['xxx1', 'xxx2'])`
  - make test database configurable
 
 Authors
