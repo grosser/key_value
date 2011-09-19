@@ -3,9 +3,13 @@ Abuse Sql database as Key-Value Store that can be [750k-qps-crazy-fast](http://y
 Install
 =======
     sudo gem install key_value
-
+    
+    # Gemfile
+    gem 'key_value', :require => false # so migrations do not fail because of missing table
+    
 Migration
 =========
+
 `rails g migration create_key_value` and paste in:
 
     class CreateKeyValue < ActiveRecord::Migration
@@ -21,6 +25,8 @@ Migration
         drop_table :key_values
       end
     end
+
+`rake db:migrate`
 
 Usage
 =====
