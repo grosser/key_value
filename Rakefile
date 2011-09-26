@@ -2,12 +2,10 @@ task :spec do
   sh "bundle exec rspec spec"
 end
 
-task :ar2 do
-  sh "cd spec/ar2 && bundle exec rspec ../../spec"
-end
-
 task :default do
-  sh "rake spec && rake ar2"
+ sh "RAILS='~>2' bundle && bundle exec rake spec"
+ sh "RAILS='~>3.0.0' bundle && bundle exec rake spec"
+ sh "RAILS='~>3.1.0' bundle && bundle exec rake spec"
 end
 
 begin

@@ -7,8 +7,6 @@ class KeyValue < ActiveRecord::Base
   HS_INDEX = 31234 # just some high number...
   VERSION = File.read( File.join(File.dirname(__FILE__),'..','VERSION') ).strip
 
-  set_primary_key :key
-
   cattr_accessor :handler_socket
   cattr_accessor :defaults
   @@defaults = {}.with_indifferent_access
